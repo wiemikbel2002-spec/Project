@@ -1,0 +1,139 @@
+{% extends "base_pro.html" %}
+{% block title %}Dashboard - API 579-FFS{% endblock %}
+{% block pagetitle %}Dashboard <span class="topbar-badge">v1.0</span>{% endblock %}
+{% block content %}
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header"><h5><i class="bi bi-bar-chart me-1"></i>Statistics</h5></div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <div class="stat-card bg-primary text-white">
+                            <div class="stat-number">{{ stats.parts }}</div>
+                            <div class="stat-label">Parts Implemented</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card bg-success text-white">
+                            <div class="stat-number">{{ stats.passed }}</div>
+                            <div class="stat-label">Tests Passed</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card bg-secondary text-white">
+                            <div class="stat-number">{{ stats.failed }}</div>
+                            <div class="stat-label">Tests Failed</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card bg-info text-white">
+                            <div class="stat-number">{{ stats.assessments }}</div>
+                            <div class="stat-label">Verification Cases</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5><i class="bi bi-check-circle me-1"></i>Verification Examples</h5>
+                <a href="{{ url_for('part3.export_csv') }}" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-download me-1"></i>CSV
+                </a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th>Example</th>
+                                <th>Material</th>
+                                <th>Level</th>
+                                <th>Status</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ex in examples %}
+                            <tr>
+                                <td><strong>{{ ex.id }}</strong></td>
+                                <td>{{ ex.material }}</td>
+                                <td><span class="badge bg-secondary">L{{ ex.level }}</span></td>
+                                <td>
+                                    {% if ex.status == 'PASS' %}
+                                    <span class="badge bg-success">PASS</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">FAIL</span>
+                                    {% endif %}
+                                </td>
+                                <td class="small">{{ ex.result }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header"><h5><i class="bi bi-lightning me-1"></i>Quick Actions</h5></div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('part3.level1') }}" class="btn btn-primary">
+                        <i class="bi bi-1-square me-1"></i>Level 1 Assessment
+                    </a>
+                    <a href="{{ url_for('part3.level2') }}" class="btn btn-info text-white">
+                        <i class="bi bi-2-square me-1"></i>Level 2 Assessment
+                    </a>
+                    <button class="btn btn-outline-secondary" onclick="alert('Coming soon')">
+                        <i class="bi bi-file-pdf me-1"></i>Generate Report
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="alert('Coming soon')">
+                        <i class="bi bi-box me-1"></i>Project Manager
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header"><h5><i class="bi bi-book me-1"></i>Implementation Status</h5></div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Part 3 - Brittle Fracture
+                        <span class="badge bg-success rounded-pill">Done</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Part 4 - Metal Loss
+                        <span class="badge bg-secondary rounded-pill">Planned</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Part 5 - Local Metal Loss
+                        <span class="badge bg-secondary rounded-pill">Planned</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Part 6 - Pitting
+                        <span class="badge bg-secondary rounded-pill">Planned</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Part 9 - Fracture Mechanics
+                        <span class="badge bg-secondary rounded-pill">Planned</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header"><h5><i class="bi bi-clock-history me-1"></i>Recent Assessments</h5></div>
+            <div class="card-body">
+                <p class="small text-muted mb-0">Recent project files saved to <code>app/projects/</code>.
+                Use <strong>Project Manager</strong> to browse and compare past assessments.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
